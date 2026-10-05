@@ -1,1 +1,638 @@
+<!DOCTYPE html>
+<html lang="th" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DEKGINSEN - เด็กกินเส้น | นวัตกรรมความอร่อยของคนรุ่นใหม่</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Prompt & Kanit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            orange: '#FF5722',
+                            darkorange: '#E64A19',
+                            charcoal: '#1E1E24',
+                            darkgray: '#2B2B36',
+                            cream: '#FFF8F0',
+                            accent: '#FFB74D'
+                        }
+                    },
+                    fontFamily: {
+                        prompt: ['Prompt', 'sans-serif'],
+                        kanit: ['Kanit', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Prompt', sans-serif;
+            background-color: #1E1E24;
+            color: #FFF8F0;
+        }
+        .glow-effect {
+            box-shadow: 0 0 25px rgba(255, 87, 34, 0.35);
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(255, 87, 34, 0.25);
+        }
+        /* Hide scrollbar for clean UI in modal */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-brand-charcoal text-brand-cream min-h-screen flex flex-col justify-between">
 
+    <!-- HEADER & NAVBAR -->
+    <header class="sticky top-0 z-40 bg-brand-charcoal/90 backdrop-blur-md border-b border-brand-orange/20 px-4 lg:px-8 py-3">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <!-- Brand Logo -->
+            <a href="#" class="flex items-center gap-2 group">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-orange to-amber-400 flex items-center justify-center text-white font-black text-xl shadow-lg group-hover:rotate-6 transition-transform">
+                    <i class="fa-solid fa-bowl-food"></i>
+                </div>
+                <div>
+                    <span class="text-2xl font-black tracking-wider text-white font-kanit">DEK<span class="text-brand-orange">GINSEN</span></span>
+                    <span class="block text-[10px] tracking-widest text-gray-400 font-light -mt-1">เด็กกินเส้น • DIGITAL FUSION</span>
+                </div>
+            </a>
+
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
+                <a href="#hero" class="hover:text-brand-orange transition-colors">หน้าแรก</a>
+                <a href="#highlights" class="hover:text-brand-orange transition-colors">เมนูไฮไลท์</a>
+                <a href="#features" class="hover:text-brand-orange transition-colors">จุดเด่นของเรา</a>
+                <a href="#ai-assistant" class="text-amber-400 hover:text-brand-orange transition-colors flex items-center gap-1.5 bg-amber-400/10 px-3 py-1.5 rounded-full border border-amber-400/30">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> AI สั่งอาหาร
+                </a>
+            </nav>
+
+            <!-- Cart Button & CTA -->
+            <div class="flex items-center gap-3">
+                <button onclick="toggleCartModal()" class="relative p-2.5 rounded-xl bg-brand-darkgray border border-gray-700 hover:border-brand-orange text-white transition-all">
+                    <i class="fa-solid fa-cart-shopping text-lg"></i>
+                    <span id="cart-badge" class="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-brand-orange text-white text-xs font-bold flex items-center justify-center hidden">0</span>
+                </button>
+                <a href="#highlights" class="hidden sm:inline-flex items-center gap-2 bg-gradient-to-r from-brand-orange to-brand-darkorange text-white font-semibold px-5 py-2.5 rounded-xl shadow-lg hover:brightness-110 transition-all active:scale-95">
+                    <span>สั่งอาหารเลย</span>
+                    <i class="fa-solid fa-arrow-right text-xs"></i>
+                </a>
+                <!-- Mobile Menu Button -->
+                <button onclick="toggleMobileMenu()" class="md:hidden p-2.5 rounded-xl bg-brand-darkgray text-white">
+                    <i class="fa-solid fa-bars text-lg"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Dropdown Menu -->
+        <div id="mobile-menu" class="hidden md:hidden mt-3 pt-3 border-t border-gray-800 flex flex-col gap-3 pb-2 text-sm">
+            <a href="#hero" onclick="toggleMobileMenu()" class="py-2 hover:text-brand-orange">หน้าแรก</a>
+            <a href="#highlights" onclick="toggleMobileMenu()" class="py-2 hover:text-brand-orange">เมนูไฮไลท์</a>
+            <a href="#features" onclick="toggleMobileMenu()" class="py-2 hover:text-brand-orange">จุดเด่นของเรา</a>
+            <a href="#ai-assistant" onclick="toggleMobileMenu()" class="py-2 text-amber-400 font-medium">✨ AI ช่วยสั่งอาหาร</a>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section id="hero" class="relative overflow-hidden py-12 md:py-20 lg:py-28 px-4">
+        <!-- Background Decorative Glows -->
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-brand-orange/20 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center relative z-10">
+            <div class="space-y-6 text-center md:text-left">
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-orange/10 border border-brand-orange/30 text-brand-orange text-xs md:text-sm font-semibold">
+                    <i class="fa-solid fa-bolt"></i> นวัตกรรมความอร่อยของคนรุ่นใหม่
+                </div>
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black font-kanit leading-tight text-white">
+                    ฉีกทุกกฏเมนูเส้น <br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-orange via-amber-400 to-orange-300">
+                        อร่อยล้ำ ยุคดิจิทัล!
+                    </span>
+                </h1>
+                <p class="text-gray-300 text-base sm:text-lg font-light max-w-xl mx-auto md:mx-0">
+                    <strong class="text-white font-medium">DEKGINSEN (เด็กกินเส้น)</strong> ผสานศิลปะอาหารตามสั่งสตรีทฟู้ดเข้ากับวัตถุดิบระดับพรีเมียมและรสชาติสุดฟิวชั่น ครีเอทเมนูใหม่ตอบโจทย์ไลฟ์สไตล์ทันสมัย ทานง่าย ได้สุขภาพ
+                </p>
+                <div class="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4 pt-2">
+                    <a href="#highlights" class="w-full sm:w-auto text-center bg-brand-orange hover:bg-brand-darkorange text-white font-bold px-8 py-4 rounded-xl shadow-lg glow-effect transition-all transform hover:-translate-y-1">
+                        สำรวจเมนูเด็ด
+                    </a>
+                    <a href="#ai-assistant" class="w-full sm:w-auto text-center bg-brand-darkgray border border-amber-400/50 hover:bg-amber-400/10 text-amber-300 font-semibold px-6 py-4 rounded-xl transition-all flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-robot"></i> ให้ AI ช่วยเลือกเมนู
+                    </a>
+                </div>
+                <!-- Stats / Quick Info -->
+                <div class="pt-6 grid grid-cols-3 gap-4 border-t border-gray-800 text-center md:text-left">
+                    <div>
+                        <span class="block text-2xl font-bold font-kanit text-brand-orange">100%</span>
+                        <span class="text-xs text-gray-400">วัตถุดิบพรีเมียม</span>
+                    </div>
+                    <div>
+                        <span class="block text-2xl font-bold font-kanit text-amber-400">5+</span>
+                        <span class="text-xs text-gray-400">เมนูไฮไลท์ฟิวชั่น</span>
+                    </div>
+                    <div>
+                        <span class="block text-2xl font-bold font-kanit text-emerald-400">Smart</span>
+                        <span class="text-xs text-gray-400">สั่งไวด้วย AI</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hero Image Banner Showcase -->
+            <div class="relative flex justify-center">
+                <div class="relative w-full max-w-md lg:max-w-lg aspect-4/3 rounded-3xl overflow-hidden border-2 border-brand-orange/30 shadow-2xl glow-effect group">
+                    <img src="1.jpg" alt="บะหมี่ดำหมึกถ่านกับซอสต้มยำชีส" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-brand-charcoal via-transparent to-transparent"></div>
+                    <div class="absolute bottom-4 left-4 right-4 p-4 rounded-2xl bg-brand-darkgray/90 backdrop-blur-md border border-gray-700">
+                        <span class="text-xs text-brand-orange font-bold uppercase tracking-wider">🔥 Recommended Today</span>
+                        <h3 class="text-lg font-bold text-white font-kanit">บะหมี่ดำหมึกถ่านกับซอสต้มยำชีส</h3>
+                        <p class="text-xs text-gray-300">ซอสต้มยำมันกุ้งเข้มข้น + มอซซาเรลล่าชีสยืด</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HIGHLIGHT MENU SECTION -->
+    <section id="highlights" class="py-16 px-4 bg-gradient-to-b from-brand-charcoal via-brand-darkgray/40 to-brand-charcoal">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <span class="text-brand-orange text-sm font-bold tracking-widest uppercase">Creative Noodle Dishes</span>
+                <h2 class="text-3xl md:text-4xl font-bold font-kanit text-white mt-1">5 เมนูไฮไลท์ สไตล์เด็กกินเส้น</h2>
+                <div class="w-16 h-1 bg-brand-orange mx-auto mt-3 rounded-full"></div>
+                <p class="text-gray-400 text-sm mt-3">คัดสรรวัตถุดิบแปลกใหม่ ผสานประโยชน์ทางโภชนาการ และรสชาติอร่อยจัดจ้านลงตัว</p>
+            </div>
+
+            <!-- Menu Grid Container -->
+            <div id="menu-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Javascript will render menu cards here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- AI ASSISTANT SECTION -->
+    <section id="ai-assistant" class="py-16 px-4 relative">
+        <div class="max-w-5xl mx-auto bg-gradient-to-br from-brand-darkgray via-gray-900 to-brand-darkgray border border-amber-400/30 rounded-3xl p-6 md:p-10 shadow-2xl relative overflow-hidden">
+            <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="flex flex-col md:flex-row items-center gap-6 mb-8">
+                <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-amber-400 to-brand-orange flex items-center justify-center text-white text-3xl shadow-lg shrink-0">
+                    <i class="fa-solid fa-brain"></i>
+                </div>
+                <div class="text-center md:text-left">
+                    <h2 class="text-2xl md:text-3xl font-bold font-kanit text-amber-300">AI Smart Food Recommender</h2>
+                    <p class="text-gray-300 text-sm mt-1">เลือกอารมณ์ หรือความต้องการทางสุขภาพของคุณในวันนี้ ให้ระบบ AI คำนวณเมนูที่ใช่ที่สุด!</p>
+                </div>
+            </div>
+
+            <!-- AI Mood & Preference Selector -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
+                <button onclick="recommendFood('spicy')" class="ai-btn p-3 rounded-xl bg-brand-charcoal border border-gray-700 hover:border-brand-orange text-left transition-all active:scale-95 group">
+                    <span class="text-2xl block mb-1">🔥</span>
+                    <span class="text-sm font-semibold text-white block">อยากกินเผ็ดแซ่บ</span>
+                    <span class="text-[11px] text-gray-400">จัดจ้าน เข้มข้น</span>
+                </button>
+                <button onclick="recommendFood('healthy')" class="ai-btn p-3 rounded-xl bg-brand-charcoal border border-gray-700 hover:border-emerald-500 text-left transition-all active:scale-95 group">
+                    <span class="text-2xl block mb-1">🥗</span>
+                    <span class="text-sm font-semibold text-white block">แคลต่ำ สุขภาพ</span>
+                    <span class="text-[11px] text-gray-400">Low-GI / Clean</span>
+                </button>
+                <button onclick="recommendFood('sweet-sour')" class="ai-btn p-3 rounded-xl bg-brand-charcoal border border-gray-700 hover:border-yellow-400 text-left transition-all active:scale-95 group">
+                    <span class="text-2xl block mb-1">🥭</span>
+                    <span class="text-sm font-semibold text-white block">หวานอมเปรี้ยวสดชื่น</span>
+                    <span class="text-[11px] text-gray-400">วิตามินซีสูง</span>
+                </button>
+                <button onclick="recommendFood('innovative')" class="ai-btn p-3 rounded-xl bg-brand-charcoal border border-gray-700 hover:border-purple-400 text-left transition-all active:scale-95 group">
+                    <span class="text-2xl block mb-1">🍫</span>
+                    <span class="text-sm font-semibold text-white block">แปลกใหม่ ไม่ซ้ำใคร</span>
+                    <span class="text-[11px] text-gray-400">ดาร์กช็อกโกแลตฟิวชั่น</span>
+                </button>
+            </div>
+
+            <!-- AI Output Box -->
+            <div id="ai-result" class="hidden bg-brand-charcoal/90 rounded-2xl p-6 border border-amber-400/40 animate-fade-in">
+                <!-- AI dynamic recommendations will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURES SECTION (จุดเด่นของเรา) -->
+    <section id="features" class="py-16 px-4 bg-brand-charcoal">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <span class="text-brand-orange text-sm font-bold tracking-widest uppercase">Why Choose Us</span>
+                <h2 class="text-3xl md:text-4xl font-bold font-kanit text-white mt-1">จุดเด่นของ DEKGINSEN</h2>
+                <div class="w-16 h-1 bg-brand-orange mx-auto mt-3 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div class="p-8 rounded-2xl bg-brand-darkgray border border-gray-800 hover:border-brand-orange/50 transition-all text-center group">
+                    <div class="w-16 h-16 rounded-2xl bg-brand-orange/10 text-brand-orange flex items-center justify-center text-3xl mx-auto mb-6 group-hover:bg-brand-orange group-hover:text-white transition-all">
+                        <i class="fa-solid fa-lightbulb"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white font-kanit mb-3">Fusion Creativity</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        เมนูฟิวชั่นยุคใหม่ที่ไม่เหมือนใคร ผสมผสานวัตถุดิบตะวันออกและตะวันตกเข้าด้วยกันอย่างพิถีพิถัน เช่น ช็อกโกแลตผัดพริกเผา หรือ มะม่วงน้ำปลาหวานพาสต้า
+                    </p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="p-8 rounded-2xl bg-brand-darkgray border border-gray-800 hover:border-amber-400/50 transition-all text-center group">
+                    <div class="w-16 h-16 rounded-2xl bg-amber-400/10 text-amber-400 flex items-center justify-center text-3xl mx-auto mb-6 group-hover:bg-amber-400 group-hover:text-black transition-all">
+                        <i class="fa-solid fa-mobile-screen-button"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white font-kanit mb-3">Digital & Fast Service</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        สั่งอาหารง่าย รวดเร็ว ผ่านระบบออนไลน์พร้อมระบบ AI ช่วยแนะนำเมนูตามอารมณ์ ปรุงสด เสิร์ฟร้อนทันใจ ตอบโจทย์ชีวิตดิจิทัล
+                    </p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="p-8 rounded-2xl bg-brand-darkgray border border-gray-800 hover:border-emerald-400/50 transition-all text-center group">
+                    <div class="w-16 h-16 rounded-2xl bg-emerald-400/10 text-emerald-400 flex items-center justify-center text-3xl mx-auto mb-6 group-hover:bg-emerald-400 group-hover:text-white transition-all">
+                        <i class="fa-solid fa-heart-pulse"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white font-kanit mb-3">Quality & Health Balance</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        คัดสรรวัตถุดิบสดใหม่ ปลอดภัย พร้อมระบุข้อมูลทางโภชนาการและสารอาหารชัดเจน เอาใจทั้งสายกินอร่อยและสายรักสุขภาพ
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-gray-950 border-t border-gray-800 py-10 px-4 mt-16 text-center md:text-left">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+            <div>
+                <div class="flex items-center justify-center md:justify-start gap-2 mb-3">
+                    <div class="w-8 h-8 rounded-lg bg-brand-orange flex items-center justify-center text-white font-bold">
+                        <i class="fa-solid fa-bowl-food"></i>
+                    </div>
+                    <span class="text-xl font-bold font-kanit text-white">DEKGINSEN</span>
+                </div>
+                <p class="text-gray-400 text-xs leading-relaxed">
+                    เด็กกินเส้น - ร้านอาหารตามสั่งสไตล์ดิจิทัลฟิวชั่น นำเสนอเมนูเส้นสุดแปลกใหม่เพื่อคนรุ่นใหม่ รสชาติจัดจ้าน มีคุณค่าทางโภชนาการ
+                </p>
+            </div>
+            <div>
+                <h4 class="text-sm font-bold font-kanit text-white mb-3 uppercase tracking-wider">ติดต่อเรา</h4>
+                <p class="text-gray-400 text-xs space-y-1">
+                    <span><i class="fa-solid fa-location-dot text-brand-orange mr-2"></i> 123 อาคารนวัตกรรมดิจิทัล กรุงเทพฯ</span><br>
+                    <span><i class="fa-solid fa-phone text-brand-orange mr-2"></i> 02-123-4567 / 089-999-8888</span><br>
+                    <span><i class="fa-solid fa-clock text-brand-orange mr-2"></i> เปิดบริการทุกวัน: 10:00 - 21:00 น.</span>
+                </p>
+            </div>
+            <div>
+                <h4 class="text-sm font-bold font-kanit text-white mb-3 uppercase tracking-wider">ติดตามเรา</h4>
+                <div class="flex justify-center md:justify-start gap-3">
+                    <a href="#" class="w-9 h-9 rounded-full bg-brand-darkgray hover:bg-brand-orange flex items-center justify-center text-white transition-all"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="w-9 h-9 rounded-full bg-brand-darkgray hover:bg-brand-orange flex items-center justify-center text-white transition-all"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="w-9 h-9 rounded-full bg-brand-darkgray hover:bg-brand-orange flex items-center justify-center text-white transition-all"><i class="fa-brands fa-line"></i></a>
+                    <a href="#" class="w-9 h-9 rounded-full bg-brand-darkgray hover:bg-brand-orange flex items-center justify-center text-white transition-all"><i class="fa-brands fa-tiktok"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto border-t border-gray-900 pt-6 text-center text-xs text-gray-500">
+            © 2026 DEKGINSEN (เด็กกินเส้น) - All Rights Reserved. Designed for Digital Era Food Experience.
+        </div>
+    </footer>
+
+    <!-- MENU DETAIL MODAL -->
+    <div id="detail-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+        <div class="bg-brand-darkgray border border-gray-700 rounded-3xl max-w-lg w-full max-h-[90vh] overflow-y-auto no-scrollbar shadow-2xl relative animate-scale-up">
+            <button onclick="closeModal()" class="absolute top-4 right-4 z-10 w-9 h-9 rounded-full bg-black/60 text-white hover:bg-brand-orange flex items-center justify-center transition-all">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div id="modal-content">
+                <!-- Dynamic Content Loaded via JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- CART & ORDER MODAL / DRAWER -->
+    <div id="cart-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex justify-end hidden">
+        <div class="bg-brand-darkgray w-full max-w-md h-full flex flex-col justify-between p-6 shadow-2xl relative border-l border-gray-800">
+            <div>
+                <div class="flex justify-between items-center pb-4 border-b border-gray-800">
+                    <h3 class="text-xl font-bold font-kanit text-white flex items-center gap-2">
+                        <i class="fa-solid fa-cart-shopping text-brand-orange"></i> ตะกร้าสินค้าของคุณ
+                    </h3>
+                    <button onclick="toggleCartModal()" class="p-2 text-gray-400 hover:text-white">
+                        <i class="fa-solid fa-xmark text-xl"></i>
+                    </button>
+                </div>
+
+                <!-- Cart Items List -->
+                <div id="cart-items" class="py-4 space-y-4 max-h-[60vh] overflow-y-auto no-scrollbar">
+                    <!-- Items inserted dynamically -->
+                </div>
+            </div>
+
+            <!-- Cart Summary & Checkout -->
+            <div class="border-t border-gray-800 pt-4 space-y-4">
+                <div class="flex justify-between items-center text-lg font-bold font-kanit">
+                    <span>ราคารวมทั้งหมด:</span>
+                    <span id="cart-total" class="text-brand-orange">0 บาท</span>
+                </div>
+                <button onclick="checkout()" class="w-full bg-gradient-to-r from-brand-orange to-brand-darkorange hover:brightness-110 text-white font-bold py-3.5 rounded-xl shadow-lg transition-all active:scale-95">
+                    ยืนยันการสั่งซื้อ
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT INTERACTIVE LOGIC -->
+    <script>
+        // MENU DATA
+        const menuData = [
+            {
+                id: 1,
+                name: "บะหมี่ดำหมึกถ่านกับซอสต้มยำชีส",
+                price: 159,
+                image: "1.jpg",
+                tag: "🔥 Recommended",
+                tagColor: "bg-red-500",
+                ingredients: "เส้นบะหมี่หมึกดำถ่านชาโคล, กุ้งแม่น้ำ, ปลาหมึก, ซอสต้มยำมันกุ้งเข้มข้น, มอซซาเรลล่าชีส, เครื่องต้มยำ",
+                healthInfo: "ชาโคลช่วยดูดซับสารพิษในระบบทางเดินอาหาร High Protein จากอาหารทะเลสด",
+                moodCategory: "spicy"
+            },
+            {
+                id: 2,
+                name: "พาสต้าเส้นมะม่วงน้ำปลาหวาน",
+                price: 139,
+                image: "2.jpg",
+                tag: "🥭 Refreshing",
+                tagColor: "bg-amber-500",
+                ingredients: "เส้นสปาเก็ตตี้ผัดซอสน้ำปลาหวานสูตรพิเศษ, เนื้อมะม่วงดิบซอยสด, กุ้งแห้งตัวโต, หอมแดง, พริกขี้หนู, ถั่วพูสด",
+                healthInfo: "อุดมด้วยวิตามินซีจากมะม่วงสด ช่วยย่อยอาหาร เพิ่มกากใยอาหารจากผักสด",
+                moodCategory: "sweet-sour"
+            },
+            {
+                id: 3,
+                name: "สปาเกตตี้เส้นช็อกโกแลตซอสพริกเผา",
+                price: 149,
+                image: "3.jpg",
+                tag: "🍫 Creative Fusion",
+                tagColor: "bg-purple-600",
+                ingredients: "เส้นสปาเก็ตตี้ผสมโกโก้แท้ 70%, ซอสพริกเผารสจัดจ้าน, พริกแห้งทอด, ใบกระเพราสด, หมูสับ",
+                healthInfo: "ฟลาโวนอยด์จากดาร์กช็อกโกแลตช่วยต้านอนุมูลอิสระและช่วยบำรุงหัวใจ",
+                moodCategory: "innovative"
+            },
+            {
+                id: 4,
+                name: "วุ้นเส้นคริสตัลแกงเขียวหวานผัดแห้ง",
+                price: 129,
+                image: "4.jpg",
+                tag: "🥗 Low Calorie",
+                tagColor: "bg-emerald-600",
+                ingredients: "วุ้นเส้นคริสตัลเหนียวนุ่ม, เครื่องแกงเขียวหวานเข้มข้น, อกไก่คลีน, มะเขือเปราะ, ใบโหระพา, พริกชี้ฟ้า",
+                healthInfo: "แคลอรีต่ำ Low-GI จากวุ้นเส้นคริสตัล โปรตีนสูง ไขมันต่ำ เหมาะสำหรับสายสุขภาพ",
+                moodCategory: "healthy"
+            },
+            {
+                id: 5,
+                name: "สปาเกตตี้เส้นใหญ่ผัดเย็นตาโฟ",
+                price: 139,
+                image: "5.jpg",
+                tag: "🍜 Traditional Fusion",
+                tagColor: "bg-pink-600",
+                ingredients: "เส้นสปาเก็ตตี้, ซอสเย็นตาโฟสูตรเต้าหู้ยี้เข้มข้น, กุ้ง, ปลาหมึก, ลูกชิ้นปลา, เต้าหู้ทอด, ผักบุ้งกรอบ",
+                healthInfo: "ได้ประโยชน์จากแคลเซียมในเต้าหู้และสารไลโคปีนจากซอสเย็นตาโฟธรรมชาติ",
+                moodCategory: "spicy"
+            }
+        ];
+
+        let cart = [];
+
+        // Render Menu Cards
+        function renderMenu() {
+            const container = document.getElementById('menu-container');
+            container.innerHTML = menuData.map(item => `
+                <div class="bg-brand-darkgray rounded-3xl border border-gray-800 overflow-hidden card-hover flex flex-col justify-between">
+                    <div>
+                        <div class="relative aspect-16/10 overflow-hidden cursor-pointer" onclick="openModal(${item.id})">
+                            <img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500" onerror="this.src='https://placehold.co/600x400/2B2B36/FF5722?text=DEKGINSEN'">
+                            <span class="absolute top-3 left-3 ${item.tagColor} text-white text-[11px] font-bold px-3 py-1 rounded-full shadow-md">
+                                ${item.tag}
+                            </span>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-lg font-bold font-kanit text-white hover:text-brand-orange transition-colors cursor-pointer" onclick="openModal(${item.id})">
+                                ${item.name}
+                            </h3>
+                            <p class="text-xs text-gray-400 mt-2 line-clamp-2">
+                                <strong class="text-gray-300">ส่วนผสม:</strong> ${item.ingredients}
+                            </p>
+                            <div class="mt-3 p-2.5 rounded-xl bg-brand-charcoal/60 border border-gray-800/80 text-[11px] text-emerald-400 flex items-start gap-1.5">
+                                <i class="fa-solid fa-leaf mt-0.5 shrink-0"></i>
+                                <span>${item.healthInfo}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="px-6 pb-6 pt-2 flex items-center justify-between border-t border-gray-800/50 mt-2">
+                        <div>
+                            <span class="text-xs text-gray-400 block">ราคา</span>
+                            <span class="text-xl font-bold font-kanit text-brand-orange">${item.price} ฿</span>
+                        </div>
+                        <button onclick="addToCart(${item.id})" class="bg-brand-orange hover:bg-brand-darkorange text-white text-sm font-semibold px-4 py-2.5 rounded-xl shadow-md transition-all active:scale-95 flex items-center gap-2">
+                            <i class="fa-solid fa-plus"></i> สั่งเลย
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Modal Handlers
+        function openModal(id) {
+            const item = menuData.find(m => m.id === id);
+            if (!item) return;
+
+            const modalContent = document.getElementById('modal-content');
+            modalContent.innerHTML = `
+                <div class="relative aspect-16/10">
+                    <img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover">
+                    <span class="absolute top-4 left-4 ${item.tagColor} text-white text-xs font-bold px-3 py-1 rounded-full">
+                        ${item.tag}
+                    </span>
+                </div>
+                <div class="p-6 space-y-4">
+                    <div class="flex justify-between items-start">
+                        <h3 class="text-2xl font-bold font-kanit text-white">${item.name}</h3>
+                        <span class="text-2xl font-bold font-kanit text-brand-orange shrink-0 ml-2">${item.price} ฿</span>
+                    </div>
+                    
+                    <div class="border-t border-b border-gray-800 py-3 space-y-2">
+                        <h4 class="text-sm font-semibold text-brand-orange flex items-center gap-2">
+                            <i class="fa-solid fa-utensils"></i> ส่วนผสมหลัก
+                        </h4>
+                        <p class="text-xs text-gray-300 leading-relaxed">${item.ingredients}</p>
+                    </div>
+
+                    <div class="bg-emerald-950/40 border border-emerald-500/30 p-3.5 rounded-xl space-y-1">
+                        <h4 class="text-xs font-bold text-emerald-400 flex items-center gap-1.5">
+                            <i class="fa-solid fa-heart-pulse"></i> ข้อมูลคุณค่าทางสุขภาพ
+                        </h4>
+                        <p class="text-xs text-emerald-200/80 leading-relaxed">${item.healthInfo}</p>
+                    </div>
+
+                    <button onclick="addToCart(${item.id}); closeModal();" class="w-full bg-brand-orange hover:bg-brand-darkorange text-white font-bold py-3.5 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-cart-plus"></i> เพิ่มลงตะกร้า (${item.price} ฿)
+                    </button>
+                </div>
+            `;
+            document.getElementById('detail-modal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('detail-modal').classList.add('hidden');
+        }
+
+        // AI Recommendation Engine Simulation
+        function recommendFood(category) {
+            const matchedItem = menuData.find(m => m.moodCategory === category) || menuData[0];
+            const aiBox = document.getElementById('ai-result');
+            
+            aiBox.classList.remove('hidden');
+            aiBox.innerHTML = `
+                <div class="flex flex-col sm:flex-row items-center gap-4">
+                    <img src="${matchedItem.image}" alt="${matchedItem.name}" class="w-24 h-24 rounded-2xl object-cover shrink-0 border border-amber-400/50">
+                    <div class="flex-1 text-center sm:text-left">
+                        <span class="text-[11px] font-bold text-amber-400 uppercase tracking-wider"><i class="fa-solid fa-sparkles"></i> AI Recommendation Match</span>
+                        <h4 class="text-lg font-bold font-kanit text-white mt-0.5">${matchedItem.name}</h4>
+                        <p class="text-xs text-gray-300 mt-1">${matchedItem.healthInfo}</p>
+                        <span class="inline-block mt-2 font-bold text-brand-orange text-sm">${matchedItem.price} บาท</span>
+                    </div>
+                    <button onclick="addToCart(${matchedItem.id})" class="bg-amber-400 hover:bg-amber-500 text-black font-bold px-5 py-2.5 rounded-xl shadow-md transition-all shrink-0">
+                        สั่งเมนูนี้ทันที
+                    </button>
+                </div>
+            `;
+        }
+
+        // Cart Logic
+        function addToCart(id) {
+            const item = menuData.find(m => m.id === id);
+            const existing = cart.find(c => c.id === id);
+
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                cart.push({ ...item, quantity: 1 });
+            }
+
+            updateCartUI();
+            showNotification(`เพิ่ม "${item.name}" ลงตะกร้าแล้ว!`);
+        }
+
+        function changeQuantity(id, delta) {
+            const item = cart.find(c => c.id === id);
+            if (!item) return;
+
+            item.quantity += delta;
+            if (item.quantity <= 0) {
+                cart = cart.filter(c => c.id !== id);
+            }
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const badge = document.getElementById('cart-badge');
+            const cartItems = document.getElementById('cart-items');
+            const cartTotal = document.getElementById('cart-total');
+
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+            // Badge
+            if (totalItems > 0) {
+                badge.innerText = totalItems;
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
+            }
+
+            // Cart Items Render
+            if (cart.length === 0) {
+                cartItems.innerHTML = `
+                    <div class="text-center py-12 text-gray-500">
+                        <i class="fa-solid fa-basket-shopping text-4xl mb-3 block"></i>
+                        <span>ไม่มีสินค้าในตะกร้า</span>
+                    </div>
+                `;
+            } else {
+                cartItems.innerHTML = cart.map(item => `
+                    <div class="flex items-center justify-between bg-brand-charcoal p-3 rounded-2xl border border-gray-800">
+                        <div class="flex items-center gap-3">
+                            <img src="${item.image}" class="w-12 h-12 rounded-xl object-cover">
+                            <div>
+                                <h5 class="text-xs font-bold text-white font-kanit line-clamp-1">${item.name}</h5>
+                                <span class="text-xs text-brand-orange font-semibold">${item.price} ฿</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2 bg-brand-darkgray px-2 py-1 rounded-lg border border-gray-700">
+                            <button onclick="changeQuantity(${item.id}, -1)" class="text-gray-400 hover:text-white px-1 font-bold">-</button>
+                            <span class="text-xs font-bold text-white w-4 text-center">${item.quantity}</span>
+                            <button onclick="changeQuantity(${item.id}, 1)" class="text-gray-400 hover:text-white px-1 font-bold">+</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            cartTotal.innerText = `${totalPrice} บาท`;
+        }
+
+        function toggleCartModal() {
+            document.getElementById('cart-modal').classList.toggle('hidden');
+        }
+
+        function toggleMobileMenu() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        }
+
+        function checkout() {
+            if (cart.length === 0) {
+                showNotification("กรุณาเลือกรายการอาหารก่อนยืนยันสั่งซื้อ");
+                return;
+            }
+            showNotification("🎉 สั่งซื้อเรียบร้อย! ร้านค้ากำลังเตรียมอาหารให้คุณ");
+            cart = [];
+            updateCartUI();
+            toggleCartModal();
+        }
+
+        // Custom Notification Toast (No Alert Window)
+        function showNotification(msg) {
+            const toast = document.createElement('div');
+            toast.className = 'fixed bottom-6 right-6 z-50 bg-brand-orange text-white font-medium px-5 py-3 rounded-2xl shadow-2xl flex items-center gap-2 animate-bounce';
+            toast.innerHTML = `<i class="fa-solid fa-circle-check"></i> ${msg}`;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+
+        // Initialize App
+        window.onload = function() {
+            renderMenu();
+        };
+    </script>
+</body>
+</html>
